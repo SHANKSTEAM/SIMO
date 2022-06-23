@@ -134,10 +134,6 @@ body.dark-theme {
 .dark-theme .nav__toggle,
 .dark-theme .nav__shop,
 
-.dark-theme .scroll-header {
-  box-shadow: 0 1px 4px hsla(0, 0%, 4%, .3);
-}
-
 .scroll-header .change-theme,
 .scroll-header .nav__toggle,
 .scroll-header .nav__shop {
@@ -215,16 +211,11 @@ body.dark-theme {
 }
 
 .nav__logo {
-  text-transform: uppercase;
-  font-weight: var(--font-bold);
   letter-spacing: 1px;
   display: inline-flex;
   align-items: center;
-  column-gap: .25rem;
-}
-
-.nav__logo-icon {
-  font-size: 1.25rem;
+  width: 30px;
+  height: auto;
 }
 
 .nav__btns {
