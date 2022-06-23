@@ -139,7 +139,9 @@ body.dark-theme {
 .scroll-header .nav__shop {
   color: var(--title-color);
 }
-
+.dark-theme .logo-svg {
+  filter: invert(1);
+}
 .dark-theme::-webkit-scrollbar {
   background: hsl(0, 0%, 30%);
 }
