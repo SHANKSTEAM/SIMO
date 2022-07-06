@@ -61,7 +61,6 @@ function gridItem(_grid,image,price,title){
         alert("Mazal ma salit achrif");
     }
     article.appendChild(span_2);
-
 }
 
 function loadEverthing(){
