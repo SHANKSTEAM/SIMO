@@ -3,14 +3,11 @@ const redOneData = {
 "CERAS MATE":["redone_img_2","7,25","Keratin Matte Hair Wax 150 ml. Cera Mate Enriquecida Con Queratina","RedOne Aqua Hair Wax ayuda a espesar, texturizar y aumentar el volumen del cabello.<>Proporciona un agarre fuerte y flexible con una superficie perfecta. <br>Totalmente libre de parabenos, sin sulfatos, sin alcohol, sin copos y sin aditivos animales.<br>Para aquellos que quieren un control total y un cabello hermoso. Crea peinados extremos y formas estructuradas según tus deseos. <br>Cera con aroma a grosella, brillo duradero y fuerte agarre, apto para todo tipo de cabello. <br>brillo: crea un brillo radiante<br>aroma:  grosella<br>fuerza de fijación: fuerte<br>volumen: 150ml<br>uso:  cabello <br>Modo de empleo: frote una pequeña cantidad con los dedos en el cabello ligeramente húmedo o secbro"]
 }
 
-var main = document.createElement("main");
-main.className = "main";
-document.body.appendChild(main);
 
 function new_grid(category,data){
     var section = document.createElement("section");
     section.className = "featured section container";
-    main.appendChild(section);
+    document.getElementsByClassName("main")[0].appendChild(section);
 
     var h2 = document.createElement("h2");
     h2.className = "section__title";
