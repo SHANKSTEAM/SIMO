@@ -49,7 +49,18 @@ function gridItem(_grid,image,price,title){
     var span = document.createElement("button");
     span.className = "button featured__button";
     span.innerHTML = "Descripción";
+    span.onclick = function(){
+        alert("Mazal ma salit achrif");
+    }
     article.appendChild(span);
+
+    var span_2 = document.createElement("button");
+    span_2.className = "button featured__button";
+    span_2.innerHTML = "Añadir a la cesta";
+    span_2.onclick = function(){
+        alert("Mazal ma salit achrif");
+    }
+    article.appendChild(span_2);
 
 }
 
