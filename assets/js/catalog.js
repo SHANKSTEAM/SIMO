@@ -1,8 +1,4 @@
-const redOneData = {
-"CERAS CON BRILLO":["redone_img_1","6.95","Quiksilver Aqua Hair Wax 150ml. Cera Con Brillo y Aroma a Grosella","RedOne Aqua Hair Wax ayuda a espesar, texturizar y aumentar el volumen del cabello.<>Proporciona un agarre fuerte y flexible con una superficie perfecta. <br>Totalmente libre de parabenos, sin sulfatos, sin alcohol, sin copos y sin aditivos animales.<br>Para aquellos que quieren un control total y un cabello hermoso. Crea peinados extremos y formas estructuradas según tus deseos. <br>Cera con aroma a grosella, brillo duradero y fuerte agarre, apto para todo tipo de cabello. <br>brillo: crea un brillo radiante<br>aroma:  grosella<br>fuerza de fijación: fuerte<br>volumen: 150ml<br>uso:  cabello <br>Modo de empleo: frote una pequeña cantidad con los dedos en el cabello ligeramente húmedo o secbro"],
-"CERAS MATE":["redone_img_2","7,25","Keratin Matte Hair Wax 150 ml. Cera Mate Enriquecida Con Queratina","RedOne Aqua Hair Wax ayuda a espesar, texturizar y aumentar el volumen del cabello.<>Proporciona un agarre fuerte y flexible con una superficie perfecta. <br>Totalmente libre de parabenos, sin sulfatos, sin alcohol, sin copos y sin aditivos animales.<br>Para aquellos que quieren un control total y un cabello hermoso. Crea peinados extremos y formas estructuradas según tus deseos. <br>Cera con aroma a grosella, brillo duradero y fuerte agarre, apto para todo tipo de cabello. <br>brillo: crea un brillo radiante<br>aroma:  grosella<br>fuerza de fijación: fuerte<br>volumen: 150ml<br>uso:  cabello <br>Modo de empleo: frote una pequeña cantidad con los dedos en el cabello ligeramente húmedo o secbro"]
-}
-
+var redOneData = {}
 
 function new_grid(category,data){
     var section = document.createElement("section");
@@ -17,15 +13,23 @@ function new_grid(category,data){
     var grid = document.createElement("div");
     grid.className = "featured__container grid";
     section.appendChild(grid);
-    gridItem(grid,data[0],data[1],data[2])
+
+    const mini_keys = Object.keys(data);
+    const mini_values = Object.values(data);
+
+    for (const key_index in mini_keys){
+       gridItem(grid,category,mini_keys[key_index],mini_values[key_index][1],mini_values[key_index][0],mini_values[key_index][2],mini_values[key_index][3],mini_values[key_index][3])
+    }
 
 }
 
-function gridItem(_grid,image,price,title){
+function gridItem(_grid,category,id,available,image,price,title){
   
     var article = document.createElement("article");
     article.className = "featured__card";
     _grid.appendChild(article);
+
+    
 
     var img = document.createElement("img");
     img.className = "featured__img";
@@ -36,31 +40,43 @@ function gridItem(_grid,image,price,title){
     featured__data.className = "featured__data";
     article.appendChild(featured__data);
 
+    //Title
     var h3 = document.createElement("h3");
     h3.className = "featured__title";
     h3.innerHTML = title;
     article.appendChild(h3);
 
+    //price text
     var span = document.createElement("span");
     span.className = "featured__price";
     span.innerHTML = price + " €";
     article.appendChild(span);
 
+    //read Descripción button
     var span = document.createElement("button");
     span.className = "button featured__button";
     span.innerHTML = "Descripción";
     span.onclick = function(){
-        alert("Mazal ma salit achrif");
+        window.open("description.html#" + category+"/"+id);
     }
     article.appendChild(span);
 
-    var span_2 = document.createElement("button");
-    span_2.className = "button featured__button";
-    span_2.innerHTML = "Añadir a la cesta";
-    span_2.onclick = function(){
-        alert("Mazal ma salit achrif");
+    //add to card button
+    if(available =="si"){
+        var span_2 = document.createElement("button");
+        span_2.className = "button featured__button";
+        span_2.innerHTML =  "Añadir a la cesta";
+        span_2.onclick = function(){
+            alert("Mazal ma salit achrif");
+        }
+        article.appendChild(span_2);
+    }else {
+    var tag = document.createElement("span");
+    tag.className = "featured__tag";
+    article.appendChild(tag);
+    tag.innerHTML = "Agotado";
     }
-    article.appendChild(span_2);
+
 }
 
 function loadEverthing(){
@@ -73,4 +89,10 @@ function loadEverthing(){
 
 }
 
-window.onload = loadEverthing();
+async function loadData(){
+    const response = await fetch("./assets/js/database.json");
+    redOneData = await response.json();
+    loadEverthing()
+}
+
+window.onload = loadData();

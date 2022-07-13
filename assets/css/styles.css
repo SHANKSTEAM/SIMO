@@ -333,7 +333,7 @@ body.dark-theme {
   margin-bottom: var(--mb-1);
 }
 
-.home__description {
+.home__description,.home__price {
   margin-bottom: var(--mb-1-5);
 }
 
