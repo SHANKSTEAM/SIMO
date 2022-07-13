@@ -1,6 +1,4 @@
-var redOneData = {}
-
-function new_grid(category,data){
+function catalog_view(category, data) {
     var section = document.createElement("section");
     section.className = "featured section container";
     document.getElementsByClassName("main")[0].appendChild(section);
@@ -17,23 +15,21 @@ function new_grid(category,data){
     const mini_keys = Object.keys(data);
     const mini_values = Object.values(data);
 
-    for (const key_index in mini_keys){
-       gridItem(grid,category,mini_keys[key_index],mini_values[key_index][1],mini_values[key_index][0],mini_values[key_index][2],mini_values[key_index][3],mini_values[key_index][3])
+    for (const key_index in mini_keys) {
+        catalog_item_view(grid, category, mini_keys[key_index], mini_values[key_index][1], mini_values[key_index][0], mini_values[key_index][2], mini_values[key_index][3], mini_values[key_index][3])
     }
 
 }
 
-function gridItem(_grid,category,id,available,image,price,title){
-  
+function catalog_item_view(_grid, category, id, available, image, price, title) {
+
     var article = document.createElement("article");
     article.className = "featured__card";
     _grid.appendChild(article);
 
-    
-
     var img = document.createElement("img");
     img.className = "featured__img";
-    img.src = "assets/img/"+image + ".jpg";
+    img.src = "assets/img/" + image + ".jpg";
     article.appendChild(img);
 
     var featured__data = document.createElement("div");
@@ -56,43 +52,63 @@ function gridItem(_grid,category,id,available,image,price,title){
     var span = document.createElement("button");
     span.className = "button featured__button";
     span.innerHTML = "Descripción";
-    span.onclick = function(){
-        window.open("description.html#" + category+"/"+id);
+    span.onclick = function () {
+        window.open("description.html#" + category + "/" + id);
     }
     article.appendChild(span);
 
-    //add to card button
-    if(available =="si"){
+    //add card item button
+    if (available == "si") {
         var span_2 = document.createElement("button");
         span_2.className = "button featured__button";
-        span_2.innerHTML =  "Añadir a la cesta";
-        span_2.onclick = function(){
-            alert("Mazal ma salit achrif");
+        span_2.innerHTML = "Añadir a la cesta";
+        span_2.onclick = function () {
+            var oldStorage = localStorage.getItem("simo_cart");
+            const json = JSON.parse(oldStorage);
+            const keys = Object.keys(json);
+            const values = Object.values(json);
+            if(keys.length>0){
+                for (_key in keys) {
+                    const target = values[_key];
+                    if (target.includes(title)) {
+                        console.log("yes");
+                        values[_key][0] = values[_key][0] + 1;
+                        break;
+                    } else {
+                        if (_key == keys.length - 1 && !target.includes(title)) {
+                            console.log("no");
+                            json[_key + 1] = [1, image, price, title];
+                            console.log(json);
+                            break;
+                        }
+                    }
+                }
+            }else{
+                json[1] = [1, image, price, title];
+            }
+            localStorage.setItem("simo_cart",JSON.stringify(json));
+            localStorageToItem(json);
         }
         article.appendChild(span_2);
-    }else {
-    var tag = document.createElement("span");
-    tag.className = "featured__tag";
-    article.appendChild(tag);
-    tag.innerHTML = "Agotado";
+    } else {
+        var tag = document.createElement("span");
+        tag.className = "featured__tag";
+        article.appendChild(tag);
+        tag.innerHTML = "Agotado";
     }
 
 }
 
-function loadEverthing(){
-    const keys = Object.keys(redOneData);
-    const values = Object.values(redOneData);
-    
-    for (const key_index in keys){
-        new_grid(keys[key_index],values[key_index]);
-    }
-
-}
-
-async function loadData(){
+async function getJsonData() {
     const response = await fetch("./assets/js/database.json");
-    redOneData = await response.json();
-    loadEverthing()
+    const jsonData = await response.json();
+
+    const keys = Object.keys(jsonData);
+    const values = Object.values(jsonData);
+
+    for (const key_index in keys) {
+        catalog_view(keys[key_index], values[key_index]);
+    }
 }
 
-window.onload = loadData();
+window.onload = getJsonData();
