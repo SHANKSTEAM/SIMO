@@ -21,7 +21,7 @@ function catalog_view(category, data) {
 
 }
 
-function catalog_item_view(_grid, category, id, available, image, price, title) {
+function catalog_item_view(_grid, category, item_id, available, image, price, title) {
 
     var article = document.createElement("article");
     article.className = "featured__card";
@@ -53,7 +53,7 @@ function catalog_item_view(_grid, category, id, available, image, price, title) 
     span.className = "button featured__button";
     span.innerHTML = "Descripción";
     span.onclick = function () {
-        window.open("description.html#" + category + "/" + id);
+        window.open("description.html#" + category + "/" + item_id);
     }
     article.appendChild(span);
 
@@ -63,32 +63,8 @@ function catalog_item_view(_grid, category, id, available, image, price, title) 
         span_2.className = "button featured__button";
         span_2.innerHTML = "Añadir a la cesta";
         span_2.onclick = function () {
-            var oldStorage = localStorage.getItem("simo_cart");
-            const json = JSON.parse(oldStorage);
-            const keys = Object.keys(json);
-            const values = Object.values(json);
-            if(keys.length>0){
-                for (_key in keys) {
-                    const target = values[_key];
-                    if (target.includes(title)) {
-                        console.log("yes");
-                        values[_key][0] = values[_key][0] + 1;
-                        break;
-                    } else {
-                        if (_key == keys.length - 1 && !target.includes(title)) {
-                            console.log("no");
-                            json[_key + 1] = [1, image, price, title];
-                            console.log(json);
-                            break;
-                        }
-                    }
-                }
-            }else{
-                json[1] = [1, image, price, title];
-            }
-            localStorage.setItem("simo_cart",JSON.stringify(json));
-            localStorageToItem(json);
-        }
+            window.add_item_to_cart(item_id,image,price,title);
+          }
         article.appendChild(span_2);
     } else {
         var tag = document.createElement("span");

@@ -1,9 +1,23 @@
 const cart__container = document.getElementsByClassName("cart__container")[0];
 const cart__prices = document.getElementsByClassName("cart__prices")[0];
 
-function cart_item_view(amount_number, img_name, price, title) {
+function create_database() {
+    const myLocalStorage = localStorage.getItem("simo_cart");
+    if (myLocalStorage == null) {
+        localStorage.setItem("simo_cart", JSON.stringify({}));
+    } else {
+        load_saved_cart_items();
+    }
+}
 
-    var cartContainer = document.getElementsByClassName("cart__container");
+function get_local_json() {
+    return JSON.parse(localStorage.getItem("simo_cart"));
+}
+function set_local_json(json) {
+    localStorage.setItem("simo_cart", JSON.stringify(json));
+}
+
+function cart_item_view(item_id, amount_number, img_name, price, title) {
 
     const article = document.createElement("article");
     article.className = "cart__card";
@@ -47,13 +61,19 @@ function cart_item_view(amount_number, img_name, price, title) {
     const i_span_2 = document.createElement("i");
     i_span_2.className = "bx bx-minus";
     i_span_2.onclick = function () {
-        console.log("decrease item amount");
+        const value = parseInt(amount.innerHTML);
+        if (value > 0) {
+            const new_value = (value - 1).toString();
+            amount.innerHTML = new_value;
+            updateCounter(item_id, new_value);
+        }
     }
     span_2.appendChild(i_span_2);
 
     // Amount number 
     const amount = document.createElement("span");
     amount.className = "cart__amount-number";
+    amount.setAttribute("id", item_id);
     amount.innerHTML = amount_number;
     cart__amount.appendChild(amount);
 
@@ -66,57 +86,57 @@ function cart_item_view(amount_number, img_name, price, title) {
     i_span_3.className = "bx bx-plus";
     span_3.appendChild(i_span_3);
     i_span_3.onclick = function () {
-        console.log("increase item amount");
+        const value = parseInt(amount.innerHTML);
+        const new_value = (value + 1).toString();
+        amount.innerHTML = new_value;
+        updateCounter(item_id, new_value);
     }
 
     // delete item from cart
     const trash = document.createElement("i");
     trash.className = "bx bx-trash-alt cart__amount-trash";
     trash.onclick = function () {
-        console.log("delete item from cart");
+        cart__container.removeChild(article);
+        updateCounter(item_id, -1);
     }
     cart__amount.appendChild(trash);
 
-    cartContainer[0].appendChild(article);
+    cart__container.appendChild(article);
 }
 
-function create_cart(database) {
-    var oldStorage = localStorage.getItem("simo_cart");
-    if (oldStorage == null) {
-        localStorage.setItem("simo_cart", JSON.stringify({}));
-    }
-    oldStorage = localStorage.getItem("simo_cart");
-    const json = JSON.parse(oldStorage);    
-    localStorageToItem(json);
-    refresh_view(json);
-}
+function add_item_to_cart(item_id, image_name, price, title) {
+    const json = get_local_json();
+    const keys = Object.keys(json);
 
-function refresh_view(json){
-    if (Object.keys(json).length == 0) {
-        cart__container.style.display = "none";
-        cart__prices.style.display = "none";
+    if (json[item_id] == undefined) {
+        json[item_id] = ["1", image_name, price, title];
+        cart_item_view(item_id, "1", image_name, price, title);
     } else {
-        cart__container.style.display = "block";
-        cart__prices.style.display = "block";
+        const count = (parseInt(json[item_id][0]) + 1).toString();
+        json[item_id] = [count,image_name, price, title];
+        document.getElementById(item_id).innerText = count;
     }
+    set_local_json(json);
 }
 
-function localStorageToItem(json) {
-    while (cart__container.firstChild) {
-        cart__container.removeChild(cart__container.lastChild);
-    }
-    refresh_view(json);
+function load_saved_cart_items() {
+    const json = get_local_json();
     const keys = Object.keys(json);
     const values = Object.values(json);
-    for (_key in keys) {
-        const target = values[_key];
-        cart_item_view(target[0], target[1], target[2], target[3]);
+
+    for (key in keys) {
+        cart_item_view(keys[key], values[key][0], values[key][1], values[key][2], values[key][3]);
     }
 }
-async function getJsonData() {
-    const response = await fetch("./assets/js/database.json");
-    const database = await response.json();
-    create_cart(database);
+
+function updateCounter(item_id, count) {
+    const json = get_local_json();
+    if (count == -1) {
+        delete json[item_id];
+    } else {
+        json[item_id][0] = count.toString();
+    }
+    set_local_json(json);
 }
 
-window.onload = getJsonData();
+window.onload = create_database();
