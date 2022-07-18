@@ -15,6 +15,7 @@ function get_local_json() {
 }
 function set_local_json(json) {
     localStorage.setItem("simo_cart", JSON.stringify(json));
+    updatedTotal(json);
 }
 
 function cart_item_view(item_id, amount_number, img_name, price, title) {
@@ -100,8 +101,12 @@ function cart_item_view(item_id, amount_number, img_name, price, title) {
         updateCounter(item_id, -1);
     }
     cart__amount.appendChild(trash);
-
+    
     cart__container.appendChild(article);
+
+    const diver = document.createElement("div");
+    diver.className = "item_diver";
+    cart__container.appendChild(diver);
 }
 
 function add_item_to_cart(item_id, image_name, price, title) {
@@ -113,7 +118,7 @@ function add_item_to_cart(item_id, image_name, price, title) {
         cart_item_view(item_id, "1", image_name, price, title);
     } else {
         const count = (parseInt(json[item_id][0]) + 1).toString();
-        json[item_id] = [count,image_name, price, title];
+        json[item_id] = [count, image_name, price, title];
         document.getElementById(item_id).innerText = count;
     }
     set_local_json(json);
@@ -127,6 +132,8 @@ function load_saved_cart_items() {
     for (key in keys) {
         cart_item_view(keys[key], values[key][0], values[key][1], values[key][2], values[key][3]);
     }
+    document.getElementsByClassName("cart__prices-item")[0].innerText = "Total (impuestos inc.)";
+    updatedTotal(json);
 }
 
 function updateCounter(item_id, count) {
@@ -137,6 +144,24 @@ function updateCounter(item_id, count) {
         json[item_id][0] = count.toString();
     }
     set_local_json(json);
+}
+
+function updatedTotal(json) {
+    const keys = Object.keys(json);
+    const values = Object.values(json);
+    var total = 0;
+    for (key in keys) {
+        total += parseFloat(values[key][0]) * parseFloat(values[key][2]);
+    }
+    total = parseFloat(total.toFixed(2));
+    const totalString = total.toString().split(".");
+    if (totalString[1] != undefined && totalString[1].length == 1) {
+        total = total + "0"
+    } else {
+        total = total + ".00"
+    }
+    document.getElementsByClassName("cart__prices-total")[0].innerText = total + " €";
+    console.log("total " + total);
 }
 
 window.onload = create_database();
