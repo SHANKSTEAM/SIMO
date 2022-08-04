@@ -4,9 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv='cache-control' content='no-cache'>
-    <meta http-equiv='expires' content='0'>
-    <meta http-equiv='pragma' content='no-cache'>
 
     <!--=============== FAVICON ===============-->
     <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
@@ -19,6 +16,7 @@
 
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/loading.css">
 
     <title>PRODUCTOS ETXEBARRIA</title>
 
@@ -57,7 +55,12 @@
 
     <!--==================== MAIN ====================-->
     <main class="main">
-
+        <i class="loader --8"></i>
+        <section class="featured section container" id="catalogos">
+            <h2 class="section__title">
+                CATÁLOGOS
+            </h2>
+        </section>
     </main>
 
     <!--==================== FOOTER ====================-->
@@ -71,7 +74,6 @@
                     <li><i class='bx bxs-phone-call'></i>&nbsp&nbsp Teléfono : 623 54 7962</li>
                     <li><i class='bx bxs-directions'></i>&nbsp&nbsp Dirección : Butroi Kalea, 5 - 48100 Mungia, Bizkaia
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -90,6 +92,8 @@
     <script src="assets/js/main.js"></script>
     <script src="assets/js/catalog.js"></script>
     <script src="assets/js/shoping-cart.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+
 </body>
 
 </html>

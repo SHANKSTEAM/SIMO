@@ -161,7 +161,6 @@ function updatedTotal(json) {
         total = total + ".00"
     }
     document.getElementsByClassName("cart__prices-total")[0].innerText = total + " €";
-    console.log("total " + total);
 }
 
 window.onload = create_database();

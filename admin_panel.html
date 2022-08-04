@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+</head>
+
+<body>
+  <style>
+    html {
+      background-color: #ecebf4;
+      width: 100%;
+      height: 162px;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    iframe {
+      background-color: black;
+      width: 100%;
+      margin: 0px;
+      padding: 0px;
+      visibility: hidden;
+    }
+
+  </style>
+  <section class="home" id="home">
+    <div class="FrameContainer">
+      <iframe
+        src="https://script.google.com/macros/s/AKfycby_34zEx-FnLBU_JbiDVG9zcFyVF11Yi5f-hQ6EJxJ69KGvxpcVD0JupcKZcgNJX2ld/exec"
+        onload="loaded()" frameborder="0"></iframe>
+    </div>
+
+  </section>
+
+  <script>
+    function loaded() {
+      document.getElementsByTagName("iframe")[0].style.visibility = "visible";
+    }
+  </script>
+</body>
+
+</html>
