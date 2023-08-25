@@ -4,10 +4,10 @@
             {
                 "devicetype": "FOC",
                 "hasnew": true,
-                "version": "K3E13J23",
+                "version": "K3E13J25",
                 "date": "1659087865344",
                 "size": "27608",
-                "url": "https://github.com/SHANKSTEAM/SIMO/raw/main/OTA_NIU_K3E14J23_32KPH_Pro_220718.bin",
+                "url": "https://github.com/SHANKSTEAM/SIMO/raw/main/OTA_NIU_K3E14J25_32KPH_Pro_220718.bin",
                 "md5": "f267201d75b73be6adc948750c34a3ab"
             }
         ]
